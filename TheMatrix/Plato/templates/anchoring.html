@@ -1,0 +1,169 @@
+{% extends "foundation/base.html" %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+	<head>
+		{% block base_title %}
+		<title>Plato's Matrix - {%block pagetitle %}{% endblock %}</title> 	
+		<h1>  {{ "anchoring" }} </h1>
+		{% endblock base_title %}
+
+		
+		{% block head_js %}
+		<!--Load the AJAX API-->
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		
+		{% if anchors %}                                                                                                                                         
+                {% for anchor in anchors %}
+
+		<script type="text/javascript">
+		
+		// Load the Visualization API and the piechart package.
+			google.load('visualization', '1.0', {'packages':['corechart']});
+		
+		// Set a callback to run when the Google Visualization API is loaded.
+			google.setOnLoadCallback(drawMe);   
+		
+		function drawMe() {				
+			// Create data table
+				var data = new google.visualization.arrayToDataTable([
+					['Time', 'Avg Score', 'Latest Review Score'],		
+					{% for element in anchor.elements %}
+					[{{ forloop.counter }},{{ element.present_avg_score }},{{ element.most_recent_ind_score }}],
+					{% endfor %}
+ 					
+				]);
+
+				
+				var options = {
+					title: 'MovieID {{anchor.movie_id}}',				
+					'height':600,
+					hAxis: {
+						title: 'Number of Reviews'
+						},
+					vAxis: {
+						title: 'Rating 0-5',
+						maxValue: 5,
+						minValue: 1
+						},
+					legend: { position: 'bottom' },
+					/*trendlines: {
+						0: {
+							type: 'polynomial',
+							color: 'blue',
+							lineWidth: 3,
+							opacity: 0.3,
+							showR2: true,
+							visibleInLegend: false
+						},
+						1: {
+							type: 'polynomial',
+							color: 'red',
+							lineWidth: 3,
+							opacity: 0.3,
+							showR2: true,
+							visibleInLegend: false
+						}
+						
+					},*/
+					pointSize: 10,
+					series: {
+						0: { pointShape: 'circle' },
+						1: { pointShape: 'triangle' },
+						2: { pointShape: 'square' },
+						3: { pointShape: 'diamond' },
+						4: { pointShape: 'star' },
+						5: { pointShape: 'polygon' }
+					}
+				};
+
+				// Instantiate and draw our chart, passing in some options.
+					var chart = new google.visualization.ScatterChart(document.getElementById('{% cycle 'row1' 'row2' 'row3' 'row4' 'row5' 'row6' 'row7' 'row8' 'row9' 'row10' 'row11' 'row12' %}'));
+				chart.draw(data, options);
+			}
+		</script>
+		{% endfor %}                                                                                                                                             
+                {% endif %} 
+		                                                                                                                                                                               	
+		{% endblock head_js %}
+
+	</head>
+	
+    {% block base_body %} 
+    <body>
+      <div class="sticky">
+	<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large;is_hover: true">
+    	  <ul class="title-area">
+	    <li class="name">
+	      <h1><a href="#">Plato Zone</a></h1>
+	    </li>  
+	  </ul>
+	  
+	  <section class="top-bar-section">
+	    <ul class="left">
+	      <li class="active"><a href="/">Home</a></li> 
+	      <li class="active"><a href="/anchoring/">Anchoring</a></li>
+	      <li class="active"><a href="/perception/">Perception</a></li> 
+	      <li class="active"><a href="/richer/">Richer</a></li> 
+	    </ul>
+	  </section>
+	</nav>
+      </div>
+
+
+      <div id="content">
+	<div id="primary">
+	  <h1>{% block title %}{% endblock %}</h1>
+	  {% block primary %}
+	  
+
+	  <div id="row1" style="width:100%; height:100%"> </div>                                                                                                                               
+          <div id="row2" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row3" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row4" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row5" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row6" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row7" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row8" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row9" style="width:100%; height:100%"> </div>                                                                                                                              
+          <div id="row10" style="width:100%; height:100%"> </div>                                                                                                                             
+          <div id="row11" style="width:100%; height:100%"> </div>
+
+
+	  
+
+	  {% if anchors %}		
+	  <!--table style="width:100%">
+			
+	    <tr>
+	      <th> Movie ID</th>
+	      <th> Time </th>
+	      <th> Avg Scores  </th> 
+	      <th> Scores with Time </th>
+	    </tr>
+	    
+	    {% for anchor in anchors %}
+	    
+	    <tr>
+	      <td> {{ anchor.movie_id }} </td>
+	      {% for element in anchor.elements %}
+	    <tr>
+	      <td> </td>
+	      <td> {{ element.time }} </td>
+	      <td> {{ element.present_avg_score }} </td>
+	      <td> {{ element.most_recent_ind_score }} </td> 
+	    </tr>
+	    {% endfor %}
+	    </tr>
+	    
+	    {% endfor %}
+	    {% endif %}
+	    {% endblock %}
+	  </table-->
+	</div>
+	
+    </body>
+    
+    {% endblock base_body %}
+
+</html>

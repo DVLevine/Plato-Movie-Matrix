@@ -1,0 +1,47 @@
+from django.db import models
+from mongoengine import *
+# Create your models here.
+
+class Review(Document):
+    movie_id = StringField(max_length=50, required=True)
+    user_id = StringField(max_length=50, required=True)
+    profile_name = StringField(max_length=50, required=True)
+    helpfulness = StringField(max_length=50, required=True)
+    score = FloatField()
+    time = IntField()
+    summary = StringField(max_length = 2000, required=True)
+    full_text = StringField(max_length=40000, required=True)
+
+##################### PERCEPTION ####################
+
+class unitAnchoring(EmbeddedDocument):
+    time = IntField()
+    present_avg_score = FloatField()
+    most_recent_ind_score = FloatField()
+
+#Need a list of time, present avg score, Most recent individual score, falls under movie
+class Anchoring(Document):
+    movie_id = StringField(max_length=50, required = True)
+    elements = ListField(EmbeddedDocumentField(unitAnchoring))
+
+#################### ANCHORING #####################
+
+class unitPerception(EmbeddedDocument):             
+    movie_id = StringField(max_length=50, required = True)
+    score = FloatField()
+    adjustedScore = FloatField()
+
+# Need a list of movies reviews, review scores, adjusted scores
+class Perception(Document):
+    user_id = StringField(max_length=50, required = True)                                                                                                                                       
+    avg_polarity = FloatField()                                                                                                                                                                 
+    avg_subjectivity = FloatField()   
+    avg_score = FloatField()
+    elements = ListField(EmbeddedDocumentField(unitPerception))       
+
+#################### RICHER ########################
+
+class bestHuman(Document):
+    user_id = StringField(max_length=50, required = True)
+    numMovies = IntField()
+    mostHelped = IntField()

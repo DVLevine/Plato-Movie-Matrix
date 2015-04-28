@@ -1,0 +1,125 @@
+{% extends "foundation/base.html" %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+	<head>
+		{% block base_title %}
+		<title>Plato's Matrix - {%block pagetitle %}{% endblock %}</title> 	
+		<h1>  {{ "richer" }} </h1>
+		{% endblock base_title %}
+		
+		
+		{% block head_js %}
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		google.load('visualization', '1.0', {'packages':['corechart']}); 
+		google.setOnLoadCallback(drawGraph); 
+		
+		function drawGraph() {
+			var data = new google.visualization.arrayToDataTable([
+				['Users', 'People Helped'],
+				{% if humans %} 
+				{% for human in humans %}
+				[{{ forloop.counter }},{{ human.mostHelped }}],
+				{% endfor %} 
+				{% endif %}
+			]);
+			
+			var options = { 
+				title: 'Dood',
+				'height':800,
+				hAxis: {                                                                                                                                                 
+					title: 'Number of Reviews'                                                                                                                        
+				}, 
+				vAxis: {                                                                                                                                                 
+					title: 'People Helped',
+				},
+				curveType: 'none',
+
+				trendlines: {                                                                                                                                         
+                                                0: {                                                                                                                                            
+                                                        type: 'exponential',                                                                                                                    
+                                                        color: 'blue',                                                                                                                          
+                                                        lineWidth: 3,                                                                                                                 
+							opacity: 0.3,                                                                                                                          
+                                                        showR2: true,                                                                                                                           
+                                                        visibleInLegend: false                                                                                                                  
+                                                }
+				},
+
+				pointSize: 8,
+				series: {                                                                                                                                                
+					0: { pointShape: 'circle' },                                                                                                                    
+					1: { pointShape: 'triangle' },                                                                                                                  
+					2: { pointShape: 'square' },                                                                                                                    
+					3: { pointShape: 'diamond' },                                                                                                                   
+					4: { pointShape: 'star' },                                                                                                                      
+					5: { pointShape: 'polygon' },
+                                     
+				},
+			};
+		
+		// Instantiate and draw our chart, passing in some options.                                                                                                      
+			var chart = new google.visualization.LineChart(document.getElementById('graphdood'));       
+                chart.draw(data, options);                                                                                                                                       
+                }
+		</script>
+		{% endblock head_js %} 
+	</head>
+	
+	
+    {% block base_body %} 
+    <body>
+ 
+      <div class="sticky">
+	<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large;is_hover: true">
+    	  <ul class="title-area">
+	    <li class="name">
+	      <h1><a href="#">Plato Zone</a></h1>
+	    </li>
+	    
+	  </ul>
+
+	  <section class="top-bar-section">
+		  <ul class="left">
+			  <li class="active"><a href="/">Home</a></li> 
+			  <li class="active"><a href="/anchoring/">Anchoring</a></li>
+			  <li class="active"><a href="/perception/">Perception</a></li> 
+			  <li class="active"><a href="/richer/">Richer</a></li> 
+		  </ul>
+	  </section>
+  </nav>
+</div>
+
+<div id="content">
+	<div id="graphdood"></div>
+	<div id="primary">
+		<h1>{% block title %}{% endblock %}</h1>
+		{% block primary %}
+		{% if humans %}
+		<table style="width:100%">
+		  <tr>
+		    <th> User ID </th>
+		    <th> Number of Movies </th>
+		    <th> Number Helped </th>
+		    <th> Total Views </th>
+		  <tr>
+		  
+		    {% for human in humans %}
+		  <tr>
+		    <td> {{ human.user_id }}</td>
+		    <td> {{ human.numMovies }}</td>
+		    <td> {{ human.mostHelped }}</td>
+		    <td> {{ human.totalHelped }}</td>
+		  </tr>
+		  {% endfor %}
+		  {% endif %}
+		  {% endblock %}
+		</table>
+	</div>
+	
+    </body>
+    
+    {% endblock base_body %}
+
+</html>

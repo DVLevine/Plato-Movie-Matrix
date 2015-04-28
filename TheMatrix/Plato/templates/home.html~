@@ -1,0 +1,48 @@
+{% extends "foundation/base.html" %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+	<head>
+		{% block base_title %}
+		<title>Plato's Matrix - {%block pagetitle %}{% endblock %}</title> 	
+		<h1>  {{ "anchoring" }} </h1>
+		{% endblock base_title %}
+	</head>
+	
+    
+    {% block base_body %} 
+    <body>
+ 
+<div class="sticky">
+  <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large;is_hover: true">
+    	  <ul class="title-area">
+		  <li class="name">
+			  <h1><a href="#">Plato Zone</a></h1>
+		  </li>
+
+	  </ul>
+
+	  <section class="top-bar-section">
+		  <ul class="left">
+			  <li class="active"><a href="/">Home</a></li> 
+			  <li class="active"><a href="/anchoring/">Anchoring</a></li>
+			  <li class="active"><a href="/perception/">Perception</a></li> 
+			  <li class="active"><a href="/richer/">Richer</a></li> 
+		  </ul>
+	  </section>
+  </nav>
+</div>
+
+<div id="content">
+	<div id="primary">
+		<h1>{% block title %}{% endblock %}</h1>
+		{% block primary %}
+		{% endblock %}
+		</table>
+	</div>
+	
+    </body>
+    
+    {% endblock base_body %}
+
+</html>
