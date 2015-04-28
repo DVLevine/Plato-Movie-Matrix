@@ -11,9 +11,9 @@ from textblob import TextBlob
 client = MongoClient()                                                                                                                                                                       
 db = client.plato_test                                                                                                                                                                      
 collection = db.review                                                                                                                                                                      
-theList = []
 
 def loadPerception():                                                                                                                                                                          
+    theList = []  
     presentTotal = 0
     presentPol = 0
     presentSub = 0
@@ -66,6 +66,7 @@ def loadPerception():
             presentSub = 0
 
 def loadAnchoring():
+    theList = []  
     presentTotal = 0
     count = 1
     # Have dictionary keep track of duplicates. skip them if dup. up count until get at least 10 unique
@@ -101,6 +102,7 @@ def loadAnchoring():
                 presentTotal = 0
 
 def loadRicher():
+    theList = []  
     presentTotal = 0
     helpfulNum = 0
     helpfulDen = 0
@@ -133,10 +135,6 @@ def loadRicher():
             print "added"
 if __name__ == "__main__":                                                                                                                                                                     
     print "Beginning upload"                                                                                                                                                                    
-    #query()
-    #other()
-    #sentiment()
-#    loadPerception()
-    loadRicher()
-# **** REAL THINGS
-#    loadAnchoring()
+    #    loadPerception()
+    #    loadRicher()
+    loadAnchoring()

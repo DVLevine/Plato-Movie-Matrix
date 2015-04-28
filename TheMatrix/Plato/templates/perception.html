@@ -1,127 +1,95 @@
 {% extends "foundation/base.html" %}
 <!doctype html>
 <html class="no-js" lang="en">
-
+	
 	<head>
 		{% block base_title %}
 		<title>Plato's Matrix - {%block pagetitle %}{% endblock %}</title> 	
 		<h1>  {{ "perception" }} </h1>
 		{% endblock base_title %}
-
-
+		
+		
 		{% block head_js %}
 		<!--Load the AJAX API-->
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+		
 		<script type="text/javascript">
-			// Load the Visualization API and the piechart package.
+		// Load the Visualization API and the piechart package.
 			google.load('visualization', '1.1', {'packages':['scatter','line','corechart']});
-			
-			// Set a callback to run when the Google Visualization API is loaded.
+		
+		// Set a callback to run when the Google Visualization API is loaded.
 			google.setOnLoadCallback(drawMe);
-			function drawMe() {
+		function drawMe() {
 			// Create data table
 			var data = new google.visualization.arrayToDataTable([			
-			['Users', 'Polarity', 'Average Score'],
+				['Users', 'Polarity', 'Average Score'],
 				{% if perceptions %}                                                                               
 				{% for perception in perceptions %}  
 				[{{ perception.avg_score }},{{ perception.avg_polarity }},{{ perception.avg_polarity }}],
 				{% endfor %}                                                                                                                                                 
-                        {% endif %} 
+				{% endif %} 
 			]);
-		  
-				var options = {
-					chart: {
-						title: "Polarity vs. Score"
-					},
-					height: 600,
-					width: 1000,
-					series: {
-						// Gives each series an axis name that matches the Y-axis below.
-							0: {axis: 'Average Polarity'},
-						1: {axis: 'Average Score'}
-					},
-					
-					axes: {
-						// Adds labels to each axis; they don't have to match the axis names.
-							y: {
-								AveragePolarity: {label: 'Average Polarity', min: -1, max: 1}, 
-								AverageScore: {label: 'Average Score'}
-							}
-					}
-				};
-
+			
+			var options = {
+				chart: {
+					title: "Polarity vs. Score"
+				},
+				height: 600,
+				width: 1000,
+				series: {
+					// Gives each series an axis name that matches the Y-axis below.
+						0: {axis: 'Average Polarity'},
+					1: {axis: 'Average Score'}
+				},
+				
+				axes: {
+					// Adds labels to each axis; they don't have to match the axis names.
+						y: {
+							AveragePolarity: {label: 'Average Polarity', min: -1, max: 1}, 
+							AverageScore: {label: 'Average Score'}
+						}
+				}
+			};
+			
 			// Instantiate and draw our chart, passing in some options.
-			var chart = new google.charts.Scatter(document.getElementById('DOOD'));
+				var chart = new google.charts.Scatter(document.getElementById('DOOD'));
 			chart.draw(data, options);
-			}
-			</script>
-			{% endblock head_js %}
-
+		}
+		</script>
+		{% endblock head_js %}
+		
 	</head>
 	
-    
-    {% block base_body %} 
-    <body>
- 
-<div class="sticky">
-  <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large;is_hover: true">
-    	  <ul class="title-area">
-		  <li class="name">
-			  <h1><a href="#">Plato Zone</a></h1>
-		  </li>
-
-	  </ul>
-
-	  <section class="top-bar-section">
-		  <ul class="left">
-			  <li class="active"><a href="/">Home</a></li> 
-			  <li class="active"><a href="/anchoring/">Anchoring</a></li>
-			  <li class="active"><a href="/perception/">Perception</a></li> 
-			  <li class="active"><a href="/richer/">Richer</a></li> 
-		  </ul>
-	  </section>
-  </nav>
-</div>
-
-<div id="content">
-    <div id="primary">
-	<h1>{% block title %}{% endblock %}</h1>
-	{% block primary %}
-	<br><br>
-	<div class="row" id="DOOD" style="width:100%; height:100%"> </div>
-
-
-	{% if perceptions %}
 	
-	<table style="width:100%">    
-	  <tr class = "panel">
-	    <th> User ID</th>
-	    <th> Avg Polarity </th>
-	    <th> Avg Subjectivity  </th> 
-	    <th> Avg Score </th>
+	{% block base_body %} 
+	<body>
 		
-	    <th> MovieID </th>
-	    <th> Score </th>
-	    <th> Adj Score </th>
-	  </tr>
-
-	  
-	  {% for perception in perceptions %}
-
-	  <tr>
-	    <td> {{ perception.user_id }} </td>
-	    <td> {{ perception.avg_polarity }} </td>
-	    <td> {{ perception.avg_subjectivity }} </td>
-	    <td> {{ perception.avg_score }} </td>
-	  </tr>
-	  
-	    {% endfor %}
-	    {% endif %}
-	    {% endblock %}
-	</table>
-    </div>
+		<div class="sticky">
+			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large;is_hover: true">
+    				<ul class="title-area">
+					<li class="name">
+						<h1><a href="#">Plato Zone</a></h1>
+					</li>					
+				</ul>
+				
+				<section class="top-bar-section">
+					<ul class="left">
+						<li class="active"><a href="/">Home</a></li> 
+						<li class="active"><a href="/anchoring/">Anchoring</a></li>
+						<li class="active"><a href="/perception/">Perception</a></li> 
+						<li class="active"><a href="/richer/">Richer</a></li> 
+					</ul>
+				</section>
+			</nav>
+		</div>
 		
-    {% endblock base_body %}
-
+		<div id="content">
+			<div id="primary">
+				<h1>{% block title %}{% endblock %}</h1>
+				{% block primary %}
+				<br><br>
+				<div class="row" id="DOOD" style="width:100%; height:100%"> </div>
+				
+					{% endblock %}
+			{% endblock base_body %}			
 </html>
