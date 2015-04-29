@@ -39,7 +39,21 @@ def perception(request):
 def richer(request):
     client = MongoClient()
     db = client.plato_test
-    humans = db.best_human.find().sort('numMovies')
+    #lor = db.lorenz.find_one()
+    #humans = db.best_human.find().sort('sortField')
+    sums = db.sums.find_one()["richSum"]
+    runSnaps = db.run_snap.find().sort('runSnap')
+    cumSnaps = db.cum_snap.find().sort('cumSnap')
+    
+#    cumSum = db.help_sum.find().limit(10000).sort('helpSum',-1)
+
+
+
+    #pipeline = [{"$unwind": "$tags"},{"$group": {"_id": "$numHelped", "count": {"$sum": 1}}},{"$sort": SON([("count", -1), ("_id", -1)])}]
+
+# list(db.richer.aggregate(pipeline))
+
+#    richers = db.richer.find().limit(10000).sort('numHelped',-1)
     template = loader.get_template('richer.html')                              
-    context = Context({"humans":humans})                 
+    context = Context({ "sums": sums, "runSnaps": runSnaps, "cumSnaps":cumSnaps})                 
     return HttpResponse(template.render(context))  

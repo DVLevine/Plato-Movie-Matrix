@@ -1,4 +1,4 @@
-{% extends "foundation/base.html" %}
+B1;2c{% extends "foundation/base.html" %}
 <!doctype html>
 <html class="no-js" lang="en">
 	
@@ -38,14 +38,14 @@
 				width: 1000,
 				series: {
 					// Gives each series an axis name that matches the Y-axis below.
-						0: {axis: 'AveragePolarity'},
-					1: {axis: 'AverageScore'}
+						0: {axis: 'Average Polarity'},
+					1: {axis: 'Average Score'}
 				},
 				
 				axes: {
 					// Adds labels to each axis; they don't have to match the axis names.
 						y: {
-							AveragePolarity: {label: 'Average Polarity'}, 
+							AveragePolarity: {label: 'Average Polarity', min: -1, max: 1}, 
 							AverageScore: {label: 'Average Score'}
 						}
 				}

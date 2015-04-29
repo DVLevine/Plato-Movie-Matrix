@@ -18,12 +18,13 @@
 		function drawGraph() {
 			var data = new google.visualization.arrayToDataTable([
 				['Users', 'People Helped'],
-				{% if humans %} 
-				{% for human in humans %}
-				[{{ forloop.counter }},{{ human.mostHelped }}],
-				{% endfor %} 
+				{% if runSnaps %}
+				{% for richer in runSnaps %}				
+				[({{ forloop.counter }})/10000,{{ richer.runSnap }}],
+				{% endfor %}
 				{% endif %}
 			]);
+
 			
 			var options = { 
 				title: 'Dood',
@@ -36,16 +37,6 @@
 				},
 				curveType: 'none',
 
-				trendlines: {                                                                                                                                         
-                                                0: {                                                                                                                                            
-                                                        type: 'exponential',                                                                                                                    
-                                                        color: 'blue',                                                                                                                          
-                                                        lineWidth: 3,                                                                                                                 
-							opacity: 0.3,                                                                                                                          
-                                                        showR2: true,                                                                                                                           
-                                                        visibleInLegend: false                                                                                                                  
-                                                }
-				},
 
 				pointSize: 8,
 				series: {                                                                                                                                                
@@ -61,8 +52,43 @@
 		
 		// Instantiate and draw our chart, passing in some options.                                                                                                      
 			var chart = new google.visualization.LineChart(document.getElementById('graphdood'));       
-                chart.draw(data, options);                                                                                                                                       
+                chart.draw(data, options);                                         
                 }
+		google.setOnLoadCallback(drawLorenz);
+		function drawLorenz() {                                                                                                                                                  
+                        var data = new google.visualization.arrayToDataTable([                                                                                                          
+                                ['Users', 'People Helped'],                                                                                                                             
+                                {% if cumSnaps %}                                                                                                                                       
+                                {% for richer in cumSnaps %}                                                                                                                            
+                                [{{ forloop.counter }}/10000, {{ richer.cumSnap }}/{{sums}}],                            
+                                {% endfor %}                                                                                                                                            
+                                {% endif %}                                                                                                                                             
+                        ]);                                                                                                                                                             
+			var options = {                                                                                                                                                        
+                                title: 'Dood',                                                                                                                                                  
+                                'height':800,                                                                                                                                                   
+                                hAxis: {                                                                                                                                                        
+                                        title: 'Number of Reviews'                                                                                                                              
+                                },                                                                                                                                                              
+                                vAxis: {                                                                                                                                                        
+                                        title: 'People Helped',                                                                                                                                 
+                                },                                                                                                                                                              
+                                curveType: 'none',                                                                                                                                            
+                                pointSize: 8,                                                                                                                                                   
+                                series: {                                                                                                                                                       
+                                        0: { pointShape: 'circle' },                                                                                                                            
+                                        1: { pointShape: 'triangle' },                                                                                                                          
+                                        2: { pointShape: 'square' },                                                                                                                            
+                                        3: { pointShape: 'diamond' },                                                                                                                           
+                                        4: { pointShape: 'star' },                                                                                                                              
+                                        5: { pointShape: 'polygon' },                     
+				},                                                                                                                                             
+			};             
+                        var chart = new google.visualization.LineChart(document.getElementById('graphcood'));                                                                                  
+			chart.draw(data, options); 
+		}
+		
+
 		</script>
 		{% endblock head_js %} 
 	</head>
@@ -93,29 +119,11 @@
 
 <div id="content">
 	<div id="graphdood"></div>
+	<div id="graphcood"></div>
 	<div id="primary">
 		<h1>{% block title %}{% endblock %}</h1>
 		{% block primary %}
-		{% if humans %}
-		<table style="width:100%">
-		  <tr>
-		    <th> User ID </th>
-		    <th> Number of Movies </th>
-		    <th> Number Helped </th>
-		    <th> Total Views </th>
-		  <tr>
-		  
-		    {% for human in humans %}
-		  <tr>
-		    <td> {{ human.user_id }}</td>
-		    <td> {{ human.numMovies }}</td>
-		    <td> {{ human.mostHelped }}</td>
-		    <td> {{ human.totalHelped }}</td>
-		  </tr>
-		  {% endfor %}
-		  {% endif %}
 		  {% endblock %}
-		</table>
 	</div>
 	
     </body>

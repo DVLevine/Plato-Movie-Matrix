@@ -42,8 +42,33 @@ class Perception(Document):
 
 #################### RICHER ########################
 
+class helpSum(Document):
+    helpSum = FloatField()
+    
+class sums(Document):
+    richSum = FloatField()
+
+class runSnap(Document):
+    runSnap = FloatField()
+
+class cumSnap(Document):
+    cumSnap = FloatField()
+
+class richer(Document):
+    name = StringField(max_length=50, required = False)
+    numHelped = FloatField()
+
+
 class bestHuman(Document):
     user_id = StringField(max_length=50, required = True)
     numMovies = IntField()
     mostHelped = IntField()
     totalHelped = IntField()
+    sortField = IntField()
+
+class lorenz(Document):
+    a = FloatField()
+    b = FloatField()
+    mostHelpfulUser = StringField()
+    mostHelpfulAmount = IntField()
+    numZero = IntField()
